@@ -86,6 +86,9 @@ SET age = SUBSTR(age, 1,2)
 WHERE LENGTH(age) = 3;
 ```
 The result:
+```SQL
+SELECT DISTINCT age  FROM club_member_info_cleaned GROUP BY age ;
+```
 |age|
 |---|
 |18|
