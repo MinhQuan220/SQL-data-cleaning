@@ -20,7 +20,21 @@ The result:
 |mendie alexandrescu|46|single|malexandrescu8@state.gov|504-918-4753|34 Delladonna Terrace,New Orleans,Louisiana|Systems Administrator III|3/12/1921|
 | fey kloss|52|married|fkloss9@godaddy.com|808-177-0318|8976 Jackson Park,Honolulu,Hawaii|Chemical Engineer|11/5/2014|
 
-## Copy table
+## Some issues with the data
+'full_name' column
+- Inconsistent letter case
+- Leading and trailing whitespaces
+
+'age' column
+- Age out of realistic range
+
+'martial_status' column
+- Spelling errors
+- Data has blank cells
+
+'membership_date' column
+- Year out of realistic range
+## Step 1: Copy table
 ### Create new table for cleaning
 ```SQL
 -- club_member_info definition
@@ -40,6 +54,7 @@ CREATE TABLE club_member_info_cleaned (
 INSERT INTO club_member_info_cleaned
 SELECT * FROM club_member_info;
 ```
+## Step 2: Customize and standardize the 'full_name' column data
 ### Remove leading and trailing spaces in column 'full_name'
 ```SQL
 UPDATE club_member_info_cleaned  SET full_name = TRIM(full_name);
@@ -48,3 +63,81 @@ UPDATE club_member_info_cleaned  SET full_name = TRIM(full_name);
 ```SQL
 UPDATE club_member_info_cleaned  SET full_name = UPPER(full_name);
 ```
+The result:
+|full_name|
+|---------|
+|ADDIE LUSH|
+|ROCK CRADICK|
+|SYDEL SHARVELL|
+|CONSTANTIN DE LA CRUZ|
+|GAYLOR REDHOLE|
+|WANDA DEL MAR|
+|JOANN KENEALY|
+|JOETE CUDIFF|
+|MENDIE ALEXANDRESCU|
+|FEY KLOSS|
+
+## Step 3: Customize and standardize the 'age' column data
+Hypothesis: when entering data, it was entered incorrectly because the last number was double-clicked when entering
+### Correct Unrealistic Age Values ​​in the Column
+```SQL
+UPDATE club_member_info_cleaned
+SET age = SUBSTR(age, 1,2)
+WHERE LENGTH(age) = 3;
+```
+The result:
+|age|
+|---|
+|18|
+|19|
+|20|
+|21|
+|22|
+|23|
+|24|
+|25|
+|26|
+|27|
+|28|
+|29|
+|30|
+|31|
+|32|
+|33|
+|34|
+|35|
+|36|
+|37|
+|38|
+|39|
+|40|
+|41|
+|42|
+|43|
+|44|
+|45|
+|46|
+|47|
+|48|
+|49|
+|50|
+|51|
+|52|
+|53|
+|54|
+|55|
+|56|
+|57|
+|58|
+|59|
+|60|
+|61|
+|62|
+|63|
+|64|
+|65|
+|66|
+|67|
+|68|
+||
+
