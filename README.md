@@ -87,7 +87,7 @@ WHERE LENGTH(age) = 3;
 ```
 The result:
 ```SQL
-SELECT DISTINCT age  FROM club_member_info_cleaned GROUP BY age ;
+SELECT DISTINCT age  FROM club_member_info_cleaned;
 ```
 |age|
 |---|
