@@ -40,3 +40,11 @@ CREATE TABLE club_member_info_cleaned (
 INSERT INTO club_member_info_cleaned
 SELECT * FROM club_member_info;
 ```
+### Remove leading and trailing spaces in column 'full_name'
+```SQL
+UPDATE club_member_info_cleaned  SET full_name = TRIM(full_name);
+```
+### Normalize data: Convert column 'full_name' to all uppercase.
+```SQL
+UPDATE club_member_info_cleaned  SET full_name = UPPER(full_name);
+```
