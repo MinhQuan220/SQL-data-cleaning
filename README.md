@@ -259,4 +259,79 @@ The result:
 |SHAE DITCHETT|25|married|sditchettqj@reference.com|203-505-3211|05799 Merchant Trail,Bridgeport,Connecticut|unknown|11/16/2021|
 |HURLEY ABTHORPE|53|married|habthorpeqp@creativecommons.org|203-547-5101|6572 Macpherson Court,Hartford,Connecticut|unknown|11/28/2017|
 
+## Step 7: Customize and standardize the 'membership_' column data
+Hypothesis: membership dates only start from 2000 onwards
+### Filter irrelevant data
+```SQL
+SELECT membership_date,
+       SUBSTR(membership_date, LENGTH(membership_date) - 3, 4) AS year
+FROM club_member_info_cleaned
+WHERE SUBSTR(membership_date, LENGTH(membership_date) - 3, 4) < '2000';
+```
+|membership_date|year|
+|---------------|----|
+|3/12/1921|1921|
+|10/1/1912|1912|
+|2/20/1916|1916|
+|5/8/1912|1912|
+|10/4/1919|1919|
+|3/10/1913|1913|
+|1/8/1912|1912|
+|9/2/1914|1914|
+|5/11/1916|1916|
+|1/31/1915|1915|
+|5/15/1915|1915|
+|3/3/1917|1917|
+|4/30/1915|1915|
+|5/22/1921|1921|
+|10/27/1915|1915|
+|7/5/1915|1915|
+### Update invalid data to unknown
+```SQL
+UPDATE club_member_info_cleaned
+SET membership_date = 'unknown'
+WHERE SUBSTR(membership_date, LENGTH(membership_date) - 3, 4) < '2000';
+```
+The result:
+```SQL
+SELECT * FROM club_member_info_cleaned
+WHERE membership_date = 'unknown';
+```
+|full_name|age|martial_status|email|phone|full_address|job_title|membership_date|
+|---------|---|--------------|-----|-----|------------|---------|---------------|
+|MENDIE ALEXANDRESCU|46|single|malexandrescu8@state.gov|504-918-4753|34 Delladonna Terrace,New Orleans,Louisiana|Systems Administrator III|unknown|
+|ANNALIESE ETOILE|52|married|aetoile2w@artisteer.com|unknown|43 Nova Circle,Garden Grove,California|Financial Advisor|unknown|
+|SIBELLE KORT|51|divorced|skort5n@wufoo.com|858-990-5533|906 Rockefeller Pass,San Diego,California|Accountant III|unknown|
+|TOWN LAMBE|38|married|tlambeak@rediff.com|202-931-4461|3 Crest Line Plaza,Washington,District of Columbia|Environmental Tech|unknown|
+|ULRIKE TIMMENS|36|divorced|utimmensd3@nyu.edu|201-321-2529|86 Northfield Crossing,Jersey City,New Jersey|Clinical Specialist|unknown|
+|KARALYNN JELFS|33|married|kjelfshq@wordpress.com|616-732-7007|30 Clove Park,Grand Rapids,Michigan|Cost Accountant|unknown|
+|CARLOS MACHIN|41|divorced|cmachinj0@xinhuanet.com|215-833-2589|91 Anzinger Alley,Philadelphia,Pennsylvania|Programmer I|unknown|
+|GABY HASKINS|37|single|ghaskinsl7@canalblog.com|702-717-5486|293 Pleasure Plaza,Las Vegas,Nevada|Senior Financial Analyst|unknown|
+|HOBEY GWYNNE|46|single|hgwynneod@cafepress.com|901-568-9545|30 Rockefeller Lane,Memphis,Tennessee|Senior Quality Engineer|unknown|
+|BLINNY TATTERSILL|27|divorced|btattersill7r@tmall.com|503-762-5427|6699 Di Loreto Avenue,Portland,Oregon|Marketing Assistant|unknown|
+|ELBERTINE GUILBERT|52|married|eguilberteb@ted.com|619-613-6303|1965 Texas Point,San Diego,California|Financial Analyst|unknown|
+|MERRIDIE O' DORNAN|51|married|mofo@theglobeandmail.com|865-938-1990|53585 Pepper Wood Way,Knoxville,Tennessee|Budget/Accounting Analyst II|unknown|
+|THOMAS LONDSDALE|19|single|tlondsdalek8@ifeng.com|716-702-8514|2 Cherokee Circle,Buffalo,New York|Help Desk Operator|unknown|
+|GABRILA VILLIERS|67|married|gvilliersl7@bandcamp.com|609-567-3769|16575 Northland Point,Trenton,New Jersey|unknown|unknown|
+|GAYEL JAFFREY|61|single|gjaffreypb@hatena.ne.jp|213-603-4464|68 Anhalt Street,Los Angeles,California|Human Resources Assistant II|unknown|
+|BRITNEY HERRIEVEN|38|married|bherrievenqv@ask.com|713-204-6332|68027 Clyde Gallagher Hill,Houston,Texas|Dental Hygienist|unknown|
+
+## Data after cleaning
+```SQL
+SELECT * FROM club_member_info_cleaned 
+LIMIT 10;
+```
+The result:
+|full_name|age|martial_status|email|phone|full_address|job_title|membership_date|
+|---------|---|--------------|-----|-----|------------|---------|---------------|
+|ADDIE LUSH|40|married|alush0@shutterfly.com|254-389-8708|3226 Eastlawn Pass,Temple,Texas|Assistant Professor|7/31/2013|
+|ROCK CRADICK|46|married|rcradick1@newsvine.com|910-566-2007|4 Harbort Avenue,Fayetteville,North Carolina|Programmer III|5/27/2018|
+|SYDEL SHARVELL|46|divorced|ssharvell2@amazon.co.jp|702-187-8715|4 School Place,Las Vegas,Nevada|Budget/Accounting Analyst I|10/6/2017|
+|CONSTANTIN DE LA CRUZ|35|unknown|co3@bloglines.com|402-688-7162|6 Monument Crossing,Omaha,Nebraska|Desktop Support Technician|10/20/2015|
+|GAYLOR REDHOLE|38|married|gredhole4@japanpost.jp|917-394-6001|88 Cherokee Pass,New York City,New York|Legal Assistant|5/29/2019|
+|WANDA DEL MAR|44|single|wkunzel5@slideshare.net|937-467-6942|10864 Buhler Plaza,Hamilton,Ohio|Human Resources Assistant IV|3/24/2015|
+|JOANN KENEALY|41|married|jkenealy6@bloomberg.com|513-726-9885|733 Hagan Parkway,Cincinnati,Ohio|Accountant IV|4/17/2013|
+|JOETE CUDIFF|51|divorced|jcudiff7@ycombinator.com|616-617-0965|975 Dwight Plaza,Grand Rapids,Michigan|Research Nurse|11/16/2014|
+|MENDIE ALEXANDRESCU|46|single|malexandrescu8@state.gov|504-918-4753|34 Delladonna Terrace,New Orleans,Louisiana|Systems Administrator III|unknown|
+|FEY KLOSS|52|married|fkloss9@godaddy.com|808-177-0318|8976 Jackson Park,Honolulu,Hawaii|Chemical Engineer|11/5/2014|
 
