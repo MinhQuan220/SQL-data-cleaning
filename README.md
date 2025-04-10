@@ -335,3 +335,46 @@ The result:
 |MENDIE ALEXANDRESCU|46|single|malexandrescu8@state.gov|504-918-4753|34 Delladonna Terrace,New Orleans,Louisiana|Systems Administrator III|unknown|
 |FEY KLOSS|52|married|fkloss9@godaddy.com|808-177-0318|8976 Jackson Park,Honolulu,Hawaii|Chemical Engineer|11/5/2014|
 
+# Update Remove duplicates
+## Find duplicates
+```SQL
+SELECT *,
+	COUNT(*) AS duplicate_count
+FROM club_member_info_cleaned cmic 
+GROUP BY 
+	full_name,
+	age,
+	martial_status,
+	email,
+	phone,
+	full_address,
+	job_title,
+	membership_date
+HAVING COUNT(*) > 1;
+```
+The result:
+|full_name|age|martial_status|email|phone|full_address|job_title|membership_date|duplicate_count|
+|---------|---|--------------|-----|-----|------------|---------|---------------|---------------|
+|ERWIN HUXTER|25|married|ehuxterm0@marketwatch.com|704-295-3261|0 Homewood Road,Charlotte,North Carolina|Software Test Engineer III|9/29/2017|2|
+|HASKELL BRADEN|32|divorced|hbradenri@freewebs.com|510-963-9848|35005 Waubesa Crossing,Berkeley,California|Dental Hygienist|11/4/2015|2|
+|NICKI FILLISKIRK|66|married|nfilliskirkd5@newsvine.com|410-848-2272|7657 Alpine Plaza,Baltimore,Maryland|Geologist IV|6/18/2021|2|
+|TAMQRAH DUNKERSLEY|36|single|tdunkersley8u@dedecms.com|651-939-2423|0 Colorado Terrace,Saint Paul,Minnesota|VP Sales|6/27/2016|2|
+
+## Delete duplicates row
+```SQL
+DELETE FROM club_member_info_cleaned
+WHERE ROWID NOT IN (
+    SELECT MIN(ROWID)
+    FROM club_member_info_cleaned
+    GROUP BY 
+        full_name, 
+        age, 
+        martial_status, 
+        email, 
+        phone, 
+        full_address, 
+        job_title, 
+        membership_date
+);
+```
+
